@@ -21,8 +21,9 @@ while hasFrame(vidObj)
     % Show the frame
     figure(1); imshow(vidFrame); title('Draw a rectangle w/ mouse');
     % Get the rectangle drawn on the figure
-    confirmed = false;
+    confirmed = false
     while ~confirmed
+        confirmed
         posRect = getrect;
         % Display the rectangle
         rectangle('Position', posRect);
@@ -37,8 +38,7 @@ while hasFrame(vidObj)
 %         figure(2); imshow(target);
         figure(3); imshow(vidFrame(y_min:y_max, x_min:x_max)); title('Selected Region');
         button = questdlg('Do you want to save it the frame?','Confirmation')
-        if isempty(button)
-            str = 'Yes';
+        if strcmp(button,'Yes')
             save(fileToSave, 'annotation');
             frameNum = frameNum + 1;
             close(3);
