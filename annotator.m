@@ -4,6 +4,12 @@
 %%% Virginia Tech
 %% Clear everything
 clc; clear all; close all;
+
+%% Make VLFeat Ready
+run('~/vlfeat/toolbox/vl_setup');
+disp('done');
+
+
 %% Create a video reader object
 % If this line crashes the script, 
 % it is likely to result from a missing G-Streamer plugin or G-Streamer
@@ -23,7 +29,6 @@ while hasFrame(vidObj)
     % Get the rectangle drawn on the figure
     confirmed = false
     while ~confirmed
-        confirmed
         posRect = getrect;
         % Display the rectangle
         rectangle('Position', posRect);
