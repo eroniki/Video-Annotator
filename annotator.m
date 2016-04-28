@@ -8,7 +8,7 @@ clc; clear all; close all;
 % If this line crashes the script, 
 % it is likely to result from a missing G-Streamer plugin or G-Streamer
 % itself; most likely missing plugin: gstreamer0.10-ffmpeg plugin 
-fileName = 'video.mp4';
+fileName = '../data/ardrone_fixed_objects/video.mp4';
 fileToSave = [fileName,'.mat'];
 vidObj = VideoReader(fileName);
 %% Loop over for each frame
