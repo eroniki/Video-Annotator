@@ -12,17 +12,20 @@ fileName = 'video.mp4';
 fileToRead = [fileName,'.mat'];
 
 load(fileToRead, 'annotation');
-
-nFrames = numel(annotation);
-featureSpace = zeros(nFrames,numel(annotation(1).features));
-labels = randi(nFrames, [1, nFrames])';
-labelsString = [char(repmat(cellstr(['target']), [1, nFrames])'), num2str(labels)]
+featureSpace.features = [];
+featureSpace.id = [];
+nFrames = numel(annotation.frame);
 for i=1:nFrames
-    featureSpace(i,:) = annotation(i).features;
+    objectsMarked = numel(annotation.frame(i).targetIndividual);
+    for j=1:objectsMarked
+        featureSpace.features = [featureSpace.features; annotation.frame(i).targetIndividual(j).features];
+        annotation.frame(i).targetIndividual(j).id;
+        featureSpace.id = [featureSpace.id; annotation.frame(i).targetIndividual(j).id];
+    end
 end
 
-mdl = fitcknn(featureSpace, labelsString,'NumNeighbors',2,...
+mdl = fitcknn(featureSpace.features, featureSpace.id,'NumNeighbors',2,...
     'NSMethod','exhaustive','Distance','minkowski',...
     'Standardize',1);
 
-label = predict(mdl,featureSpace) 
+label = predict(mdl,featureSpace.features) 
