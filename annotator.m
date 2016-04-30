@@ -43,9 +43,15 @@ while hasFrame(vidObj)
 
         annotation.frame(frameNum).targetIndividual(k).id = inputdlg('Please type the target type', 'Type'); 
         annotation.frame(frameNum).targetIndividual(k).targetRGB = imresize(vidFrame(y_min:y_max, x_min:x_max), [50, 50]);
-
+        % Feature representation
         [annotation.frame(frameNum).targetIndividual(k).features, annotation.frame(frameNum).targetIndividual(k).hogVisualization] = extractHOGFeatures(annotation.frame(frameNum).targetIndividual(k).targetRGB);
         size(annotation.frame(frameNum).targetIndividual(k).features) 
+        surfpoints = detectSURFFeatures(annotation.frame(frameNum).targetIndividual(k).targetRGB);
+        surfpoints = surfpoints.selectStrongest(10);
+        [f1, ~] = extractFeatures(annotation.frame(frameNum).targetIndividual(k).targetRGB, surfpoints);
+        annotation.frame(frameNum).targetIndividual(k).features = f1(:);
+        size(annotation.frame(frameNum).targetIndividual(k).features)
+        
         figure(2); imshow(maskCumulative);
         figure(3); imshow(vidFrame(y_min:y_max, x_min:x_max)); title('Selected Region');
         figure(4); plot(annotation.frame(frameNum).targetIndividual(k).hogVisualization);
